@@ -5,7 +5,7 @@ public class Le_Nain extends Carte{
 		Nom="LeNain";
 		PDV=4;
 		PDD=3;
-		Coût=4;
+		Cout=4;
 
 	}
 

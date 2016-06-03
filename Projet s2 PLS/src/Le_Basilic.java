@@ -5,7 +5,7 @@ public class Le_Basilic extends Carte {
 		Nom="Le Basilic";
 		PDV=5;
 		PDD=7;
-		Coût=7;
+		Cout=7;
 		
 	}
 

@@ -5,7 +5,7 @@ public class Barils_Explosifs extends Carte{
 		Nom="Barils_Explosifs";
 		PDV=2;
 		PDD=5;
-		Coût=4;
+		Cout=4;
 
 	}
 

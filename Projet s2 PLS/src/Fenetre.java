@@ -8,10 +8,11 @@ import java.util.Random;
 public class Fenetre {
 	public JFrame fen = new JFrame();
 	public JPan jpanel = new JPan();
-	private static int mana = 1;
+	private static int mana = 0;
 	private static int vie = 30;
-	private static int vieB = 60;
-	public static int start;
+	private static int vieB = 80;
+	public static int start,stop;
+	public int somCouMan=0;
 	//1280x1080
 	private final Position pos_but[]={
 			//haut
@@ -23,11 +24,12 @@ public class Fenetre {
 			new Position(403,549),new Position(563,549),
 			new Position(723,549),new Position(883,549)};
 	private Button button[] = new Button[12];
-	public Button piocher = new Button("piocher");//à remplacer pa un automatisme
+	public Button Start = new Button("Start");//à remplacer pa un automatisme
 	private Paquet Card = new Paquet();
 	private Carte CardH[] = new Carte[6];
 	private Carte CardB[] = new Carte[6];
 	public int dejAtt[] = new int[6];
+	private static Carte carteCour;
 	
 	@SuppressWarnings("deprecation")
 	public Fenetre()
@@ -47,6 +49,7 @@ public class Fenetre {
 			this.button[i].setLabel("ici");
 			this.button[i].setLayout(null);
 			this.button[i].setBounds(this.pos_but[i].getPos_x(), this.pos_but[i].getPos_y(), 100, 20);
+			this.button[i].active=0;
 			this.dejAtt[i]=0;
 		}
 		for(int i =6; i<12;i++)
@@ -56,30 +59,45 @@ public class Fenetre {
 			this.button[i].setLabel("Poser");
 			this.button[i].setLayout(null);
 			this.button[i].setBounds(this.pos_but[i].getPos_x(), this.pos_but[i].getPos_y(), 100, 20);
+			this.button[i].active=0;
 		}
 		for(int i=0;i<12;i++)
 		{
 			fen.add(this.button[i]);
 			this.button[i].setEnabled(false);
 		}
-		this.piocher.setBounds(0, 0, 100, 20);
-		this.fen.add(this.piocher);
-		this.piocher.addActionListener(new ActionListener(){
+		this.Start.setBounds(0, 0, 100, 20);
+		this.fen.add(this.Start);
+		this.Start.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event)
 			{
 				jpanel.writeM(mana);
 				jpanel.writeV(vie);
 				mana=mana+1;
 				vie = vie-2;
-				if(mana+1>10)
-				{
-					mana=10;
-				}
 				if(vie<0)
 				{
 					vie=0;
 				}
-				piocher();
+				if(vieB==0 || vie==0)
+				{
+					EndGame();
+				}
+				else
+				{
+					if(mana+1>10)
+					{
+						mana=10;
+					}
+					if(vie<0)
+					{
+						vie=0;
+					}
+					somCouMan=0;
+					refreshPos();
+					piocher();
+					Start.setLabel("Fin du tour");
+				}				
 			}
 		});
 		this.fen.setVisible(true);
@@ -87,52 +105,89 @@ public class Fenetre {
 	}
 
 	public void piocher()
-	{
+	{		
 		refreshButtonAttaquer();
-		//10=vide
-		//autre=plein
-		Carte test = this.Card.getHeadCard();
-		String name = test.getNom();
-		int empla[] = new int[6];
-		empla=jpanel.videBas();
 		refreshAttaquer();
-		for(int i=6;i<12;i++)
+		int i=6;
+		while(button[i].active!=0)
 		{
-			if(empla[i-6]==-1 && this.button[i].active==0)
+			i++;
+			if(i>=12)
 			{
-				this.jpanel.piocher(i,name);
-				this.button[i].active=1;
-				this.button[i].addActionListener(new ActionListener(){
-					public void actionPerformed(ActionEvent event)
-					{
-						refreshOther();
-						start=getEmp(event);
-						disp(6,12);
-						poser();
-						button[start].active=0;
-						CardB[start-6]=test;
-					}
-				});
-				this.button[i].setEnabled(true);
 				break;
 			}
 		}
-				
-	}		
+		if(i<12)
+		{
+			carteCour = this.Card.getHeadCard();
+			CardB[i-6]=carteCour;
+			this.jpanel.piocher(i,carteCour.getNom());
+			button[i].active=1;
+			button[i].setEnabled(true);
+			if(carteCour.getCout()+somCouMan>mana)
+			{
+				button[i].active=1;
+				button[i].setEnabled(false);
+			}
+			button[i].addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent event)
+				{
+					start=getEmp(event);
+					button[start].active=0;
+					button[start].setEnabled(false);;
+					poser();
+				}
+			});	
+		}
+	}
+	
+	public void refreshPos()
+	{
+		for(int i=6;i<12;i++)
+		{
+			if(CardB[i-6]!=null)
+			{
+				if(CardB[i-6].getCout()+somCouMan<=mana)
+				{
+					button[i].setEnabled(true);
+				}
+				else
+				{
+					button[i].setEnabled(false);
+				}
+			}
+		}
+	}
 	
 	public void poser()
-	{		
-		int emplacement[] = new int[6];
-		emplacement=this.jpanel.videHaut();
-		refreshOther();
-		for (int i=0;i<6;i++)
+	{
+		String nameH[] = jpanel.getNameH();
+		for(int i=0;i<6;i++)
 		{
-			if(emplacement[i]==-1)
+			this.button[i].setLabel("ici");
+			if(nameH[i]=="vide")
 			{
-				this.button[i].active=1;
-				
+				ActionListener al[] = this.button[i].getActionListeners();
+				if(al.length!=0)
+				{
+					this.button[i].removeActionListener(al[0]);
+				}
+				this.button[i].addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent event)
+					{
+						stop = getEmp(event);
+						CardH[stop]=CardB[start-6];
+						somCouMan=somCouMan+CardH[stop].getCout();
+						CardB[start-6]=null;
+						jpanel.poser(start, stop,CardH[stop].getNom());	
+						carteCour=null;
+						disp(0,6);
+						refreshAttaquer();
+						refreshPos();
+					}
+				});
 				this.button[i].setEnabled(true);
-			}
+			}			
 		}
 	}
 
@@ -143,7 +198,6 @@ public class Fenetre {
 			this.button[i].setEnabled(false);
 		}
 	}
-	
 	public void reap(int start,int stop)
 	{
 		for(int i=start;i<stop;i++)
@@ -169,14 +223,13 @@ public class Fenetre {
 		return emp;
 	}
 
-	
 	@SuppressWarnings("deprecation")
 	private void refreshAttaquer()
 	{
 		String emp[] = jpanel.getNameH();
 		for(int i=0;i<6;i++)
 		{
-						ActionListener al[] = this.button[i].getActionListeners();
+			ActionListener al[] = this.button[i].getActionListeners();
 			if(al.length!=0)
 			{
 				this.button[i].removeActionListener(al[0]);
@@ -186,6 +239,10 @@ public class Fenetre {
 				{
 					int deg =CardH[getEmp(event)].getPDD();
 					vieB = vieB - deg;
+					if(vieB<0)
+					{
+						vieB=0;
+					}
 					jpanel.attaquer(vieB);
 					dejAtt[getEmp(event)]=1;
 					
@@ -210,31 +267,20 @@ public class Fenetre {
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
-	private void refreshOther()
+	private void EndGame()
 	{
-		String nameB[] = jpanel.getNameB();
-		for(int i=0;i<6;i++)
+		for(int i=0;i<12;i++)
 		{
-			this.button[i].setLabel("ici");;
-			ActionListener al[] = this.button[i].getActionListeners();
-			if(al.length!=0)
-			{
-				this.button[i].removeActionListener(al[0]);
-			}
-			this.button[i].addActionListener(new ActionListener(){
-				public void actionPerformed(ActionEvent event)
-				{
-					int stop=getEmp(event);
-					CardH[stop]=CardB[start-6];
-					CardB[start-6]=null;
-					jpanel.poser(start, stop,nameB[start-6]);
-					disp(0,6);
-					reap(6,12);
-					refreshAttaquer();
-				}
-			});
-		}		
+			button[i].setEnabled(false);
+		}
+		Start.setEnabled(false);
+		if(vieB==0 && vie>0)
+		{
+			jpanel.win();
+		}
+		else
+		{
+			jpanel.lose();
+		}
 	}
-
 }

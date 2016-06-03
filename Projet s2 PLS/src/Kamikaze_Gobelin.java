@@ -5,7 +5,7 @@ public class Kamikaze_Gobelin extends Carte{
 		Nom="KamikazeGobelin";
 		PDV=1;
 		PDD=3;
-		Coût=3;
+		Cout=3;
 
 	}
 

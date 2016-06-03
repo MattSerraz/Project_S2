@@ -18,7 +18,7 @@ public class Paquet {
 			this.l_paquet.add(new Zombie());
 			this.l_paquet.add(new Sauvageon());
 			this.l_paquet.add(new Les_Chiens_de_enfer());
-			this.l_paquet.add(new léclaireur());
+			this.l_paquet.add(new eclaireur());
 			this.l_paquet.add(new Le_Viking());
 			this.l_paquet.add(new Le_Troll());
 			this.l_paquet.add(new Le_Seigneur());
@@ -32,8 +32,8 @@ public class Paquet {
 			this.l_paquet.add(new Elfe());
 			this.l_paquet.add(new Druide());
 			this.l_paquet.add(new Barils_Explosifs());
-			this.l_paquet.add(new Arraignée_loup());
-			this.l_paquet.add(new Armées_Fantomes());
+			this.l_paquet.add(new Arraignee_loup());
+			this.l_paquet.add(new Armees_Fantomes());
 			
 		}
 	

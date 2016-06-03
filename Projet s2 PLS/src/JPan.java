@@ -5,6 +5,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.Font;
 
 public class JPan extends JPanel 
 {	
@@ -44,7 +46,7 @@ public class JPan extends JPanel
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);		 
-        ImageIcon m = new ImageIcon("Plateau1.png");
+        ImageIcon m = new ImageIcon("Plateau.png");
         Image monImage = m.getImage();
         g.drawImage(monImage, 0, 0,this);
         for (int i=0;i<6;i++)
@@ -175,4 +177,28 @@ public class JPan extends JPanel
 		}
 	}
 
+	public void win()
+	{
+		try 
+		{
+			Image img = ImageIO.read(new File("YW.png"));
+			this.getGraphics().drawImage(img,265,0, this);
+		} 
+		catch (IOException e) 
+		{
+		     e.printStackTrace();		
+		}
+	}
+	public void lose()
+	{
+		try 
+		{
+			Image img = ImageIO.read(new File("YL.png"));
+			this.getGraphics().drawImage(img,265,0, this);
+		} 
+		catch (IOException e) 
+		{
+		     e.printStackTrace();		
+		}
+	}
 }

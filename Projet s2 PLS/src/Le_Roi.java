@@ -5,7 +5,7 @@ public class Le_Roi extends Carte{
 		Nom="Le Roi";
 		PDV=6;
 		PDD=10;
-		Coût=9;
+		Cout=9;
 		
 	}
 	

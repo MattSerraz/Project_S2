@@ -3,7 +3,7 @@ abstract class Carte {
 	protected String Nom;
 	protected int PDV;
 	protected int PDD;
-	protected int Coût;
+	protected int Cout;
 	
 	public String getNom() {
 		return Nom;
@@ -14,8 +14,8 @@ abstract class Carte {
 	public int getPDD() {
 		return PDD;
 	}
-	public int getCoût() {
-		return Coût;
+	public int getCout() {
+		return Cout;
 	}
 	
 	public void Attaquer(Carte Carte)

@@ -5,7 +5,7 @@ public class Druide extends Carte{
 		Nom="Druide";
 		PDV=3;
 		PDD=4;
-		Coût=4;
+		Cout=4;
 	}
 
 

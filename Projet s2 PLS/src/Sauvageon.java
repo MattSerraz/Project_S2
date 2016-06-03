@@ -5,7 +5,7 @@ public class Sauvageon extends Carte {
 		Nom="Sauvageon";
 		PDV=2;
 		PDD=2;
-		Coût=2;
+		Cout=2;
 
 	}
 
