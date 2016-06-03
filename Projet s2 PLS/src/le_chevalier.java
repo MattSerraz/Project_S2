@@ -8,3 +8,4 @@ public le_chevalier(){
 		Coût=2;
 
 }
+}

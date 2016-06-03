@@ -1,5 +1,5 @@
 
-public class Le_Basilic {
+public class Le_Basilic extends Carte {
 	public Le_Basilic(){
 
 		Nom="Le Basilic";

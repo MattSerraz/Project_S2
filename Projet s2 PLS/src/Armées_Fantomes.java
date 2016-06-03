@@ -1,5 +1,5 @@
 
-public class Armées_Fantomes {
+public class Armées_Fantomes extends Carte {
 	public Armées_Fantomes(){
 
 		Nom="ArméesFantomes";

@@ -1,6 +1,5 @@
 
 public class Kamikaze_Gobelin extends Carte{
-	
 	public Kamikaze_Gobelin(){
 
 		Nom="KamikazeGobelin";

@@ -1,6 +1,6 @@
 
 public class léclaireur extends Carte {
-	public éclaireur(){
+	public léclaireur(){
 
 		Nom="éclaireur";
 		PDV=2;
@@ -8,3 +8,4 @@ public class léclaireur extends Carte {
 		Coût=1;
 
 	}
+}
