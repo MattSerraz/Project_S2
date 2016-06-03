@@ -63,6 +63,7 @@ public class JPan extends JPanel
 		{
 			Image boss = ImageIO.read(new File("Boss.png"));
 			g.drawImage(boss,470,20, this);
+			this.getGraphics().drawString(""+60, 430, 110);
 		} 
 		catch (IOException e) 
 		{
@@ -78,7 +79,6 @@ public class JPan extends JPanel
 			this.getGraphics().drawImage(img,this.image[start].getPos_x(),this.image[start].getPos_y(), this);
 			this.occupeB[start-6]=start;
 			this.nameB[start-6]=name;
-			this.getGraphics().drawString(""+30, 430, 110);
 		} 
 		catch (IOException e) 
 		{

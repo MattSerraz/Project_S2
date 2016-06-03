@@ -10,7 +10,7 @@ public class Fenetre {
 	public JPan jpanel = new JPan();
 	private static int mana = 1;
 	private static int vie = 30;
-	private static int vieB = 30;
+	private static int vieB = 60;
 	public static int start;
 	//1280x1080
 	private final Position pos_but[]={
@@ -25,6 +25,8 @@ public class Fenetre {
 	private Button button[] = new Button[12];
 	public Button piocher = new Button("piocher");//à remplacer pa un automatisme
 	private Paquet Card = new Paquet();
+	private Carte CardH[] = new Carte[6];
+	private Carte CardB[] = new Carte[6];
 	public int dejAtt[] = new int[6];
 	
 	@SuppressWarnings("deprecation")
@@ -107,7 +109,8 @@ public class Fenetre {
 						start=getEmp(event);
 						disp(6,12);
 						poser();
-						button[start].active=0;;
+						button[start].active=0;
+						CardB[start-6]=test;
 					}
 				});
 				this.button[i].setEnabled(true);
@@ -181,9 +184,11 @@ public class Fenetre {
 			this.button[i].addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent event)
 				{
-					vieB = vieB - 2;
+					int deg =CardH[getEmp(event)].getPDD();
+					vieB = vieB - deg;
 					jpanel.attaquer(vieB);
 					dejAtt[getEmp(event)]=1;
+					
 					button[getEmp(event)].setEnabled(false);
 				}
 			});
@@ -221,6 +226,8 @@ public class Fenetre {
 				public void actionPerformed(ActionEvent event)
 				{
 					int stop=getEmp(event);
+					CardH[stop]=CardB[start-6];
+					CardB[start-6]=null;
 					jpanel.poser(start, stop,nameB[start-6]);
 					disp(0,6);
 					reap(6,12);
