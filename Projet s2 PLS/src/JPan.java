@@ -182,7 +182,7 @@ public class JPan extends JPanel
 		try 
 		{
 			Image img = ImageIO.read(new File("YW.png"));
-			this.getGraphics().drawImage(img,265,20, this);
+			this.getGraphics().drawImage(img,265,200, this);
 		} 
 		catch (IOException e) 
 		{
@@ -194,7 +194,7 @@ public class JPan extends JPanel
 		try 
 		{
 			Image img = ImageIO.read(new File("YL.png"));
-			this.getGraphics().drawImage(img,265,200, this);
+			this.getGraphics().drawImage(img,265,20, this);
 		} 
 		catch (IOException e) 
 		{

@@ -87,10 +87,14 @@ public class Fenetre {
 						vie=0;
 						EndGame();
 					}
-					somCouMan=0;
-					refreshPos();
-					piocher();
-					Start.setLabel("Fin du tour");
+					if(vie>0)
+					{
+						somCouMan=0;
+						refreshPos();
+						piocher();
+						Start.setLabel("Fin du tour");
+					}
+					
 				}
 				jpanel.writeV(vie);
 				jpanel.writeM(mana);
@@ -288,6 +292,8 @@ public class Fenetre {
 	{
 		for(int i=0;i<12;i++)
 		{
+			ActionListener al[] = button[i].getActionListeners();
+			button[i].removeActionListener(al[0]);
 			button[i].setEnabled(false);
 		}
 		Start.setEnabled(false);
