@@ -71,8 +71,7 @@ public class Fenetre {
 			public void actionPerformed(ActionEvent event)
 			{
 				mana=mana+1;
-				vie = vie-2;				
-				
+				vie = vie-2;					
 				if(vieB==0)
 				{
 					EndGame();
