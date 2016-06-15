@@ -71,15 +71,9 @@ public class Fenetre {
 			public void actionPerformed(ActionEvent event)
 			{
 				mana=mana+1;
-				vie = vie-2;
-				jpanel.writeM(mana);
-				jpanel.writeV(vie);				
+				vie = vie-2;				
 				
-				if(vie<0)
-				{
-					vie=0;
-				}
-				if(vieB==0 || vie==0)
+				if(vieB==0)
 				{
 					EndGame();
 				}
@@ -89,15 +83,18 @@ public class Fenetre {
 					{
 						mana=10;
 					}
-					if(vie<0)
+					if(vie<=0)
 					{
 						vie=0;
+						EndGame();
 					}
 					somCouMan=0;
 					refreshPos();
 					piocher();
 					Start.setLabel("Fin du tour");
-				}				
+				}
+				jpanel.writeV(vie);
+				jpanel.writeM(mana);
 			}
 		});			
 	}
@@ -121,6 +118,7 @@ public class Fenetre {
 		}
 		if(i<12)
 		{
+			
 			carteCour = this.Card.getHeadCard();
 			CardB[i-6]=carteCour;
 			this.jpanel.piocher(i,carteCour.getNom());
@@ -146,8 +144,27 @@ public class Fenetre {
 				}
 			});	
 		}
+		refreshPosibilites();
+		
 	}
-	
+	public void refreshPosibilites()
+	{
+		boolean test=false;
+		for(int j=0;j<6;j++)
+		{
+			if(CardH[j]==null)
+			{
+				test=true;
+			}
+		}
+		if(test==false)
+		{
+			for(int k=6;k<12;k++)
+			{
+				this.button[k].setEnabled(false);
+			}
+		}
+	}
 	public void refreshPos()
 	{
 		for(int i=6;i<12;i++)
@@ -164,6 +181,7 @@ public class Fenetre {
 				}
 			}
 		}
+		refreshPosibilites();
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -195,6 +213,7 @@ public class Fenetre {
 						disp(0,6);
 						refreshAttaquer();
 						refreshPos();
+						refreshPosibilites();
 					}
 				});
 				this.button[i].setEnabled(true);
@@ -208,17 +227,6 @@ public class Fenetre {
 		{
 			this.button[i].setEnabled(false);
 		}
-	}
-	public void reap(int start,int stop)
-	{
-		for(int i=start;i<stop;i++)
-		{
-			if (this.button[i].active==1)
-			{
-				this.button[i].setEnabled(true);
-			}			
-		}
-
 	}
 	
 	private int getEmp(ActionEvent event)
@@ -255,8 +263,7 @@ public class Fenetre {
 						vieB=0;
 					}
 					jpanel.attaquer(vieB);
-					dejAtt[getEmp(event)]=1;
-					
+					dejAtt[getEmp(event)]=1;					
 					button[getEmp(event)].setEnabled(false);
 				}
 			});
