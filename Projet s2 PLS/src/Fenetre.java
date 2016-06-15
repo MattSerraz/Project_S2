@@ -2,7 +2,6 @@ import javax.swing.JFrame;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Random;
 
 
 public class Fenetre {
@@ -24,7 +23,7 @@ public class Fenetre {
 			new Position(403,549),new Position(563,549),
 			new Position(723,549),new Position(883,549)};
 	private Button button[] = new Button[12];
-	public Button Start = new Button("Start");//à remplacer pa un automatisme
+	public Button Start = new Button("Start");
 	private Paquet Card = new Paquet();
 	private Carte CardH[] = new Carte[6];
 	private Carte CardB[] = new Carte[6];
@@ -34,7 +33,7 @@ public class Fenetre {
 	@SuppressWarnings("deprecation")
 	public Fenetre()
 	{
-		this.fen.setTitle("Ma première fenêtre Java");
+		this.fen.setTitle("Game.exe");
 		this.fen.setLocationRelativeTo(null);
 		this.fen.setLayout(null);
 		this.fen.setSize(1100, 900);
@@ -71,9 +70,9 @@ public class Fenetre {
 		this.Start.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event)
 			{
-				jpanel.writeM(mana);
-				jpanel.writeV(vie);
 				mana=mana+1;
+				jpanel.writeM(mana);
+				jpanel.writeV(vie);				
 				vie = vie-2;
 				if(vie<0)
 				{
@@ -99,11 +98,13 @@ public class Fenetre {
 					Start.setLabel("Fin du tour");
 				}				
 			}
-		});
-		this.fen.setVisible(true);
-		fen.setLocation(0,0);	
+		});			
 	}
-
+	public void Start()
+	{
+		this.fen.setVisible(true);
+		fen.setLocation(0,0);
+	}
 	public void piocher()
 	{		
 		refreshButtonAttaquer();
@@ -159,25 +160,28 @@ public class Fenetre {
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void poser()
 	{
 		String nameH[] = jpanel.getNameH();
 		for(int i=0;i<6;i++)
 		{
 			this.button[i].setLabel("ici");
+			ActionListener al[] = this.button[i].getActionListeners();
+			if(al.length!=0)
+			{
+				this.button[i].removeActionListener(al[0]);
+			}
+			this.button[i].setEnabled(false);
 			if(nameH[i]=="vide")
 			{
-				ActionListener al[] = this.button[i].getActionListeners();
-				if(al.length!=0)
-				{
-					this.button[i].removeActionListener(al[0]);
-				}
 				this.button[i].addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent event)
 					{
 						stop = getEmp(event);
 						CardH[stop]=CardB[start-6];
 						somCouMan=somCouMan+CardH[stop].getCout();
+						jpanel.writeM(mana - somCouMan);
 						CardB[start-6]=null;
 						jpanel.poser(start, stop,CardH[stop].getNom());	
 						carteCour=null;
