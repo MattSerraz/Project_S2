@@ -8,7 +8,7 @@ public class Fenetre {
 	public JFrame fen = new JFrame();
 	public JPan jpanel = new JPan();
 	private static int mana = 0;
-	private static int vie = 30;
+	private static int vie = 32;
 	private static int vieB = 80;
 	public static int start,stop;
 	public int somCouMan=0;
@@ -45,7 +45,7 @@ public class Fenetre {
 		{
 			Button myButt = new Button();
 			this.button[i]=myButt;
-			this.button[i].setLabel("ici");
+			this.button[i].setLabel("attaquer");
 			this.button[i].setLayout(null);
 			this.button[i].setBounds(this.pos_but[i].getPos_x(), this.pos_but[i].getPos_y(), 100, 20);
 			this.button[i].active=0;
@@ -71,9 +71,10 @@ public class Fenetre {
 			public void actionPerformed(ActionEvent event)
 			{
 				mana=mana+1;
+				vie = vie-2;
 				jpanel.writeM(mana);
 				jpanel.writeV(vie);				
-				vie = vie-2;
+				
 				if(vie<0)
 				{
 					vie=0;
@@ -135,7 +136,12 @@ public class Fenetre {
 				{
 					start=getEmp(event);
 					button[start].active=0;
-					button[start].setEnabled(false);;
+					button[start].setEnabled(false);
+					Start.setEnabled(false);
+					for(int i=6;i<12;i++)
+					{
+						button[i].setEnabled(false);
+					}
 					poser();
 				}
 			});	
@@ -178,6 +184,7 @@ public class Fenetre {
 				this.button[i].addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent event)
 					{
+						Start.setEnabled(true);
 						stop = getEmp(event);
 						CardH[stop]=CardB[start-6];
 						somCouMan=somCouMan+CardH[stop].getCout();
